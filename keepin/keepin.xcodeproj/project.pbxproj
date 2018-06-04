@@ -22,20 +22,6 @@
 		FF259EAC1F4D3FEE00766E8D /* death.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAB1F4D3FEE00766E8D /* death.wav */; };
 		FF259EAE1F4D3FFD00766E8D /* gong.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAD1F4D3FFD00766E8D /* gong.wav */; };
 		FF259EB11F4D405000766E8D /* touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAF1F4D403F00766E8D /* touch.wav */; };
-		FF259EB31F4D4B1000766E8D /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EB21F4D4B1000766E8D /* GoogleMobileAds.framework */; };
-		FF259EB61F4D4B4000766E8D /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EB41F4D4B4000766E8D /* EventKit.framework */; };
-		FF259EB71F4D4B4000766E8D /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EB51F4D4B4000766E8D /* EventKitUI.framework */; };
-		FF259EB91F4D4B4800766E8D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EB81F4D4B4800766E8D /* AVFoundation.framework */; };
-		FF259EBB1F4D4B4F00766E8D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EBA1F4D4B4F00766E8D /* AdSupport.framework */; };
-		FF259EBD1F4D4B5600766E8D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EBC1F4D4B5600766E8D /* AudioToolbox.framework */; };
-		FF259EBF1F4D4B6400766E8D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EBE1F4D4B6400766E8D /* CoreGraphics.framework */; };
-		FF259EC11F4D4B6C00766E8D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EC01F4D4B6C00766E8D /* CoreTelephony.framework */; };
-		FF259EC31F4D4B7100766E8D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EC21F4D4B7100766E8D /* CoreMedia.framework */; };
-		FF259EC51F4D4B7900766E8D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EC41F4D4B7900766E8D /* MessageUI.framework */; };
-		FF259EC71F4D4B7F00766E8D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EC61F4D4B7F00766E8D /* StoreKit.framework */; };
-		FF259EC91F4D4B8400766E8D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF259EC81F4D4B8400766E8D /* SystemConfiguration.framework */; };
-		FF8BE06F1F5BC809000418EA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8BE06D1F5BC808000418EA /* Crashlytics.framework */; };
-		FF8BE0701F5BC809000418EA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8BE06E1F5BC809000418EA /* Fabric.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,21 +35,7 @@
 		FF259EAB1F4D3FEE00766E8D /* death.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = death.wav; sourceTree = "<group>"; };
 		FF259EAD1F4D3FFD00766E8D /* gong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gong.wav; sourceTree = "<group>"; };
 		FF259EAF1F4D403F00766E8D /* touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = touch.wav; sourceTree = "<group>"; };
-		FF259EB21F4D4B1000766E8D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Frameworks/GoogleMobileAds.framework; sourceTree = "<group>"; };
-		FF259EB41F4D4B4000766E8D /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
-		FF259EB51F4D4B4000766E8D /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
-		FF259EB81F4D4B4800766E8D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		FF259EBA1F4D4B4F00766E8D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		FF259EBC1F4D4B5600766E8D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		FF259EBE1F4D4B6400766E8D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		FF259EC01F4D4B6C00766E8D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		FF259EC21F4D4B7100766E8D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		FF259EC41F4D4B7900766E8D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		FF259EC61F4D4B7F00766E8D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		FF259EC81F4D4B8400766E8D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FF64D8DA1F4D080D008E9C84 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		FF8BE06D1F5BC808000418EA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		FF8BE06E1F5BC809000418EA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		FF8D07671EFB4BD000A07028 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		FF8D07691EFB4BD000A07028 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		FF8D076B1EFB4BD000A07028 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -76,47 +48,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF259EC91F4D4B8400766E8D /* SystemConfiguration.framework in Frameworks */,
-				FF259EC71F4D4B7F00766E8D /* StoreKit.framework in Frameworks */,
-				FF8BE06F1F5BC809000418EA /* Crashlytics.framework in Frameworks */,
-				FF259EC51F4D4B7900766E8D /* MessageUI.framework in Frameworks */,
-				FF259EC31F4D4B7100766E8D /* CoreMedia.framework in Frameworks */,
-				FF259EC11F4D4B6C00766E8D /* CoreTelephony.framework in Frameworks */,
-				FF259EBF1F4D4B6400766E8D /* CoreGraphics.framework in Frameworks */,
-				FF8BE0701F5BC809000418EA /* Fabric.framework in Frameworks */,
-				FF259EBD1F4D4B5600766E8D /* AudioToolbox.framework in Frameworks */,
-				FF259EBB1F4D4B4F00766E8D /* AdSupport.framework in Frameworks */,
-				FF259EB91F4D4B4800766E8D /* AVFoundation.framework in Frameworks */,
-				FF259EB61F4D4B4000766E8D /* EventKit.framework in Frameworks */,
-				FF259EB71F4D4B4000766E8D /* EventKitUI.framework in Frameworks */,
-				FF259EB31F4D4B1000766E8D /* GoogleMobileAds.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		71B18A6639A9744471939945 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FF8BE06D1F5BC808000418EA /* Crashlytics.framework */,
-				FF8BE06E1F5BC809000418EA /* Fabric.framework */,
-				FF259EC81F4D4B8400766E8D /* SystemConfiguration.framework */,
-				FF259EC61F4D4B7F00766E8D /* StoreKit.framework */,
-				FF259EC41F4D4B7900766E8D /* MessageUI.framework */,
-				FF259EC21F4D4B7100766E8D /* CoreMedia.framework */,
-				FF259EC01F4D4B6C00766E8D /* CoreTelephony.framework */,
-				FF259EBE1F4D4B6400766E8D /* CoreGraphics.framework */,
-				FF259EBC1F4D4B5600766E8D /* AudioToolbox.framework */,
-				FF259EBA1F4D4B4F00766E8D /* AdSupport.framework */,
-				FF259EB81F4D4B4800766E8D /* AVFoundation.framework */,
-				FF259EB41F4D4B4000766E8D /* EventKit.framework */,
-				FF259EB51F4D4B4000766E8D /* EventKitUI.framework */,
-				FF259EB21F4D4B1000766E8D /* GoogleMobileAds.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		FF259ECA1F4D4BBC00766E8D /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +71,6 @@
 			children = (
 				FF8D07641EFB4BD000A07028 /* keepin */,
 				FF8D07631EFB4BD000A07028 /* Products */,
-				71B18A6639A9744471939945 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -254,7 +190,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" fb555f2c3831d5c49dc79e249019721b036c4a6c 46ebe751f3c313601ef2b59a4f76a47d3961d06efecc368892a9335c5f712521";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 

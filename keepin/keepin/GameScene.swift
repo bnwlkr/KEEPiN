@@ -13,11 +13,7 @@ import GameplayKit
 import AVFoundation
 import Social
 import StoreKit
-
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-    
     
     let fadeOut = SKAction.fadeAlpha(to: 0.3, duration: 0.4)
     let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.4)

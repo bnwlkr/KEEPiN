@@ -11,10 +11,7 @@
  import SpriteKit
  import GameplayKit
  import StoreKit
- import GoogleMobileAds
  import AVFoundation
- import Fabric
- import Crashlytics
  
 
 @UIApplicationMain
@@ -24,17 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        Fabric.with([Crashlytics.self])
-        Fabric.sharedSDK().debug = true
-        
-        GADMobileAds.configure(withApplicationID: "ca-app-pub-4545877410282895~8485110562")
-    
-        do{
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            
-        }
         return true
     }
     
