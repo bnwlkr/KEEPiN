@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "boundary.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "boundary.png",
       "scale" : "2x"
     },
     {

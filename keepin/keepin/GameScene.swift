@@ -21,6 +21,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstPlay = true
     
+    var width: CGFloat  = 0.0
+    var xInset: CGFloat = 0.0
     
     
     //sounds
@@ -108,8 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var beatScore = false
     
     
-    
-    var instructionLabel1 = SKLabelNode()
     var instructionLabel2 = SKLabelNode()
     
     
@@ -285,7 +285,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         pauseButton.name = "pauseButton"
         
-        pauseButton.position = CGPoint(x: size.width * 0.08, y: size.height * 0.945)
+        pauseButton.position = CGPoint(x: size.width * 0.08+xInset, y: size.height * 0.945)
         
         pauseLabel.text = "PAUSED"
         pauseLabel.fontName = "Hiragino Sans"
@@ -303,7 +303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         bestCrown.size = CGSize(width: size.width / 15, height: size.width / 17)
-        bestCrown.position = CGPoint(x: size.width * 0.86, y: size.height * 0.97)
+        bestCrown.position = CGPoint(x: size.width * 0.86-xInset, y: size.height * 0.945)
         
         if (defaults.integer(forKey: "best") >= 100) {
             bestCrown.texture = textureAtlas.textureNamed("100crown")
@@ -321,18 +321,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if (!defaults.bool(forKey: "instructed")) {
-            if (GameScene.plays > 1) {
+            if (GameScene.plays > 0) {
                 defaults.set(true, forKey: "instructed")
             } else {
-                instructionLabel1.text = "This is an energy bar, you can hold until it depletes"
-                instructionLabel1.position = CGPoint(x: size.width / 2, y: size.height * 0.82)
-                self.addChild(instructionLabel1)
-                instructionLabel1.fontName = "Hiragino Sans-Bold"
-                instructionLabel2.fontName = "Hiragino Sans-Bold"
-            
-                instructionLabel2.text = "The circle blocks the ball while you are holding down"
-                
-                instructionLabel2.position = CGPoint(x: size.width / 2, y: size.height * 0.2)
+                instructionLabel2.fontName = "Hiragino-Sans Bold"
+                instructionLabel2.text = "The circle blocks the ball while\nyou are holding down.You can\nhold down as long as your\nenergy bar hasn't depleted!"
+                if #available(iOS 11.0, *) {
+                    instructionLabel2.numberOfLines = 0
+                } else {
+                    instructionLabel2.text = ""
+                }
+                instructionLabel2.position = CGPoint(x: size.width / 2, y: size.height * 0.12)
                 self.addChild(instructionLabel2)
             }
         }
@@ -434,12 +433,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }
-        
-        
-        
-        
     }
-    
     
     func scoreLabelSetup () {
         scoreLabel.text = String(score)
@@ -455,7 +449,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func energyMeterSetup () {
         canTouch = false
-        energyMeterWidth = Double(size.width) * 0.9
+        energyMeterWidth = Double(width) * 0.9
         energyMeter = SKSpriteNode(texture: SKTexture(image:UIImage(named: "energyMeter")!), size: CGSize(width: 0, height: size.height / 60))
         energyMeter.position = CGPoint(x: size.width / 2, y: size.height * 0.8)
         energyMeter.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -465,7 +459,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         energyMeter.name = "energyMeter"
         
-        let energyMeterFinalSize = CGSize(width: size.width * 0.9, height: size.height / 60)
+        let energyMeterFinalSize = CGSize(width: width * 0.9, height: size.height / 60)
         
         let expandAction = SKAction.resize(toWidth: energyMeterFinalSize.width, duration: 0.5)
         energyMeter.run(expandAction, completion: {self.canTouch = true})
@@ -479,12 +473,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func boundarySetup () {
-        
-        boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: size.width * 0.9, height: size.width * 0.9))
+        boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: width * 0.9, height: width * 0.9))
         
         
         boundary.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        let boundaryPhysicsPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: size.width * 0.435, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
+        let boundaryPhysicsPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: width * 0.435, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
         boundary.physicsBody = SKPhysicsBody(edgeLoopFrom: boundaryPhysicsPath.cgPath)
         boundary.zPosition = 10
         boundary.colorBlendFactor = 1.0
@@ -524,14 +517,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setDefaults () {
         best = defaults.integer(forKey: "best")
-        
-        
     }
     
-    
     func startGame() {
+        
         if GameScene.plays > 1 {
-            self.removeChildren(in: [instructionLabel2, instructionLabel1])
+            self.removeChildren(in: [instructionLabel2])
             defaults.set(true, forKey: "instructed")
         }
     
@@ -551,21 +542,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             NotificationCenter.default.post(Notification.init(name: Notification.Name("showBanner")))
             firstPlay = false
         }
-        
-        
-        
-        
+    
         GameScene.plays += 1
         
         scene?.isPaused = false
         
         
         self.removeChildren(in: [shareButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball])
-        
-        
+    
         randomizer = Int(arc4random_uniform(2))
-        
-        
+    
         energyMeterSetup()
         ballSetup()
         
@@ -590,8 +576,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
-    
     func menu () {
         
         NotificationCenter.default.post(Notification.init(name: Notification.Name("gameSceneFalse")))
@@ -605,11 +589,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = UIColor.black
         GameScene.gameState = GameState.startScreen
         
-        self.removeChildren(in: [shareButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball, pauseTint, menuButton, pauseButton, bestCrown, bestLabelCrown, instructionLabel1, instructionLabel2])
-        
-        
-        
-        
+        self.removeChildren(in: [shareButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball, pauseTint, menuButton, pauseButton, bestCrown, bestLabelCrown, instructionLabel2])
         
         scoreLabel.isHidden = true
         
@@ -638,6 +618,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        if UIDevice.modelName.range(of: "X") != nil {
+            width = size.width * 0.8
+            xInset = width * 0.1
+        } else {
+            width = size.width
+        }
         
         createTextureAtlas()
         boundarySetup()
