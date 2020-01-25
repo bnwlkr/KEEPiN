@@ -956,7 +956,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             completion(UIApplication.shared.openURL(url))
             return
         }
-        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+        UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: completion)
     }
     
     func shareWithWorld () {
@@ -1011,4 +1011,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
