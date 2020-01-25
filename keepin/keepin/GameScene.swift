@@ -13,6 +13,8 @@ import GameplayKit
 import AVFoundation
 import Social
 import StoreKit
+
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let fadeOut = SKAction.fadeAlpha(to: 0.3, duration: 0.4)
@@ -190,22 +192,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func audioSetup () {
-        
-        //background
-        
-        
         audioTouch = SKAction.playSoundFileNamed("touch.wav", waitForCompletion: false)
         audioCongrats = SKAction.playSoundFileNamed("gong.wav", waitForCompletion: false)
         audioContact = SKAction.playSoundFileNamed("touch.wav", waitForCompletion: false)
         audioClick = SKAction.playSoundFileNamed("click.wav", waitForCompletion: false)
         audioDeath = SKAction.playSoundFileNamed("death.wav", waitForCompletion: false)
         audioUrAwesome = SKAction.playSoundFileNamed("urawesome.wav", waitForCompletion: false)
-        
-        
     }
-    
-    
-    
     
     func newHighScore () {
         if !isMuted {
@@ -947,6 +940,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return distance(button.position, location) < button.size.width
     }
     
+        
     func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
         guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
             completion(false)
@@ -959,41 +953,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: completion)
     }
     
+
+    
     func shareWithWorld () {
         
         let alert = UIAlertController(title: "Share", message: nil, preferredStyle: .actionSheet)
-        let actionOne = UIAlertAction(title: "Facebook", style: .default, handler: { (action) in
-            
+        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (action) in
             let fbPost = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            
-            
-            fbPost?.setInitialText("best: \(self.defaults.integer(forKey: "best"))")
-            fbPost?.add(#imageLiteral(resourceName: "logo"))
-            fbPost?.add(URL(string: ""))
+            fbPost?.add(URL(string: "https://apps.apple.com/us/app/keepin/id1273915355"))
             self.view?.window?.rootViewController?.present(fbPost!, animated: true, completion: nil)
-        }
-            
-        )
+        })
         
-        
-        let actionTwo = UIAlertAction(title: "Twitter", style: .default, handler: {
-            (action) in
-            
-            
-            let twitterPost = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            
-            twitterPost?.setInitialText("best: \(self.defaults.integer(forKey: "best"))")
-            twitterPost?.add(#imageLiteral(resourceName: "logo"))
-            twitterPost?.add(URL(string: ""))
-            self.view?.window?.rootViewController?.present(twitterPost!, animated: true, completion: nil)
-            
+        let twitter = UIAlertAction(title: "Twitter", style: .default, handler: { (action) in
+			let twitterPost = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+			twitterPost?.add(URL(string: "https://apps.apple.com/us/app/keepin/id1273915355"))
+			self.view?.window?.rootViewController?.present(twitterPost!, animated: true, completion: nil)
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        
-        alert.addAction(actionOne)
-        alert.addAction(actionTwo)
+        alert.addAction(facebook)
+        alert.addAction(twitter)
         alert.addAction(cancel)
         
         self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
