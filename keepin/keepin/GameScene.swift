@@ -40,9 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var transitionColor = UIColor.white
     var canTouch = true
     var alreadyContact = false
-    
-    
-    
+
     // gameState
     static var gameState: GameState? = nil
     var pauseGame = false
@@ -54,23 +52,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     static var plays = 0
     
-    // buttons
-    var pauseButton = SKSpriteNode()
-    var pauseTint = SKShapeNode()
-    var pauseLabel = SKLabelNode()
-    var touchStartLabel = SKLabelNode()
-    
     // sound
     var isMuted = false
     
-    //buttons
+    // buttons
     var menuButton = SKSpriteNode()
     var shareButton = SKSpriteNode()
     var soundButton = SKSpriteNode()
     var rateButton = SKSpriteNode()
+	var pauseButton = SKSpriteNode()
+	var pauseTint = SKShapeNode()
+	var pauseLabel = SKLabelNode()
+	var touchStartLabel = SKLabelNode()
+	 
     
-    
-    // Title
+    // title
     var titleImage = SKSpriteNode()
     
     
@@ -78,11 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var randomizer: Int = 0
     var randomizer2: Int = 0
     
-    
-    //vortex and electric field
     var vortex = SKFieldNode()
-    
-    
     
     // boundary
     var boundary = SKSpriteNode()
@@ -91,14 +83,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var lastContactpoint = CGPoint(x: 0, y: 0)
     
-    
     // energyMeter
     var energyMeter = SKSpriteNode()
     var energyMeterWidth = 0.0
     let depleteTime = 1.5
     let replenishTime = 3.0
-    var energySpark = SKEmitterNode()
-    
     
     // ball
     var ball = SKShapeNode()
@@ -442,8 +431,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func energyMeterSetup () {
         canTouch = false
-        energyMeterWidth = Double(width) * 0.9
-        energyMeter = SKSpriteNode(texture: SKTexture(image:UIImage(named: "energyMeter")!), size: CGSize(width: 0, height: size.height / 60))
+        energyMeterWidth = Double(size.width) * 0.9
+        let energyMeterHeight = Double(size.height) / 60
+        energyMeter = SKSpriteNode(texture: SKTexture(image:UIImage(named: "energyMeter")!), size: CGSize(width: 0, height: energyMeterHeight))
         energyMeter.position = CGPoint(x: size.width / 2, y: size.height * 0.8)
         energyMeter.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         energyMeter.zPosition = 10
@@ -452,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         energyMeter.name = "energyMeter"
         
-        let energyMeterFinalSize = CGSize(width: width * 0.9, height: size.height / 60)
+        let energyMeterFinalSize = CGSize(width: CGFloat(energyMeterWidth), height: CGFloat(energyMeterHeight))
         
         let expandAction = SKAction.resize(toWidth: energyMeterFinalSize.width, duration: 0.5)
         energyMeter.run(expandAction, completion: {self.canTouch = true})
@@ -460,9 +450,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(energyMeter)
         
         scoreLabel.run(SKAction.repeatForever(sequenceX))
-        
-        
-        
     }
     
     func boundarySetup () {
@@ -570,14 +557,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func menu () {
-        
         NotificationCenter.default.post(Notification.init(name: Notification.Name("gameSceneFalse")))
-        
         firstPlay = true
-        
         NotificationCenter.default.post(Notification.init(name: Notification.Name("hideBanner")))
-        
-        
         self.physicsWorld.contactDelegate = self
         self.backgroundColor = UIColor.black
         GameScene.gameState = GameState.startScreen
@@ -595,11 +577,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         GameScene.gameState = GameState.startScreen
         
-        
         let boundaryShiftSequence = SKAction.sequence([SKAction.colorize(with: UIColor.blue, colorBlendFactor: 1.0, duration: 0.5), SKAction.colorize(with: UIColor.blue, colorBlendFactor: 1.0, duration: 0.5), SKAction.colorize(with: UIColor.cyan, colorBlendFactor: 1.0, duration: 0.5), SKAction.colorize(with: UIColor.green, colorBlendFactor: 1.0, duration: 0.5), SKAction.colorize(with: UIColor.yellow, colorBlendFactor: 1.0, duration: 0.5), SKAction.colorize(with: UIColor.red, colorBlendFactor: 1.0, duration: 0.5), SKAction.colorize(with: UIColor.magenta, colorBlendFactor: 1.0, duration: 0.5)])
         
         boundaryShiftSequence.speed = 0.5
-        
         
         boundary.run(SKAction.repeatForever(boundaryShiftSequence))
         
@@ -622,7 +602,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         boundarySetup()
         audioSetup()
         menu()
-        
         scoreLabelSetup()
         scoreLabel.isHidden = true
     }
@@ -648,10 +627,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
-    
-    
-    
+
+
     override func update(_ currentTime: TimeInterval) {
         if score > best! {
             beatScore = true
@@ -667,50 +644,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.isPaused = pauseGame
         
-        
         if isBallOutside() {
             transitionColor = energyMeter.color
             if !isMuted {
                 run(audioDeath!)
             }
             startGame()
-            
         }
-        
-        
-        
+ 
         if energyMeter.size.width == 0.0 && GameScene.gameState != GameState.startScreen {
             setContactable(contact: false)
         }
         
         if contactable == true && GameScene.gameState != GameState.startScreen {
             boundary.color = energyMeter.color
-            
-            
         }
-        
         scaleDamping()
-        
-        
     }
-    //1200
+
     func scaleDamping () {
         let currentVelocity = velocity(vector: (ball.physicsBody?.velocity)!)
-        
         if (currentVelocity > 1000) {
             ball.physicsBody?.linearDamping = 1.7
         } else {
             ball.physicsBody?.linearDamping = 0.0
         }
-        
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         if canTouch {
-            
-            
             let touch = touches.first
             if touchInRange(button: pauseButton, location: (touch?.location(in: self))!) && !(scene?.isPaused)! && GameScene.gameState != GameState.startScreen {
                 pause()
@@ -722,17 +684,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 sound()
             } else if touchInRange(button: menuButton, location: (touch?.location(in: self))!) && self.children.contains(menuButton) {
                 menu()
-                
             } else if GameScene.gameState == GameState.startScreen {
-                
-                
                 boundary.removeAllActions()
                 transitionColor = myColors[Int(arc4random_uniform(UInt32(myColors.endIndex)))]
                 boundary.color = UIColor.white
                 presentMenuFeatures(direction: "UP")
-                
-                
-                
             } else if pauseGame {
                 scene?.isPaused = false
                 pauseGame = false
@@ -741,7 +697,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 switch GameScene.gameState! {
                 case .waitingToStart:
-                    
                     bestCrown.removeAllActions()
                     bestLabelCrown.removeAllActions()
                     bestCrown.alpha = 1.0
@@ -750,18 +705,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     scoreLabel.alpha = 1.0
                     score = 0
                     scoreLabel.text = String(score)
-                    
                     ball.physicsBody?.isDynamic = true
-                    
                     GameScene.gameState = GameState.running
-                    
-                    
                     break
-                    
-                    
                 case .running:
-                    
-                    
                     if energyMeter.size.width != 0.0 {
                         setContactable(contact: true)
                         energyMeter.removeAction(forKey: "grow")
@@ -770,7 +717,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                     break
-                    
                 default:
                     break
                 }
@@ -793,51 +739,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-        
         if !(abs(contact.contactPoint.x - lastContactpoint.x) < (size.width / 250) && abs(contact.contactPoint.y - lastContactpoint.y) < (size.width / 250)) {
-            
-            
             if distance(contact.contactPoint, CGPoint(x: size.width / 2, y: size.height / 2)) <= size.width * 0.435 {
-            
                 score += 1
-                
-        
                 scoreLabel.text = String(score)
-                
-                
                 if !isMuted {
                     run(audioTouch!)
                 }
-                
                 if Double(score).truncatingRemainder(dividingBy: 2) == 0.0 {
                     vortex.strength *= -1
                     randomVortex()
                     let colorChange = SKAction.colorize(with: myColors[colorIndex % myColors.endIndex], colorBlendFactor: 1.0, duration: 1.0)
                     colorIndex += 1
-                    
                     energyMeter.run(colorChange)
-                    
-                    
-                    
                 }
-                
-                
-                
-                
-                
             }
-            
             lastContactpoint = contact.contactPoint
-            
-            
-            
-            
         } else {
             ball.physicsBody?.applyImpulse(CGVector(dx: contact.contactNormal.dx * 100, dy: contact.contactNormal.dy * 100))
         }
-        
-        
-        
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
@@ -863,29 +783,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(pauseTint)
         self.addChild(pauseLabel)
         self.addChild(menuButton)
-        
-        
     }
     
     func rate () {
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
-            
         } else {
             rateApp(appId: "id1273915355", completion: {_ in })
         }
-        
-        
     }
     
     func share () {
         if !isMuted {
             run(audioClick!)
         }
-        shareWithWorld()
-        
-        
-        
+        print("clicked share button") // TODO: leaderboard
     }
     
     func sound () {
@@ -896,11 +808,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             soundButton.texture = textureAtlas.textureNamed("mute")
             isMuted = true
         } else {
-            
             soundButton.texture = textureAtlas.textureNamed("soundOn")
             isMuted = false
         }
-        
         
     }
     
@@ -932,8 +842,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let y = sqrt(pow(size.width / 2, 2) - distance((self.view?.center)!, CGPoint(x: x, y: (self.view?.center.y)!)))
         
         vortex.position = CGPoint(x: x, y: y)
-        
-        
     }
     
     func touchInRange (button: SKSpriteNode, location: CGPoint) -> Bool {
@@ -951,32 +859,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: completion)
-    }
-    
-
-    
-    func shareWithWorld () {
-        
-        let alert = UIAlertController(title: "Share", message: nil, preferredStyle: .actionSheet)
-        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (action) in
-            let fbPost = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            fbPost?.add(URL(string: "https://apps.apple.com/us/app/keepin/id1273915355"))
-            self.view?.window?.rootViewController?.present(fbPost!, animated: true, completion: nil)
-        })
-        
-        let twitter = UIAlertAction(title: "Twitter", style: .default, handler: { (action) in
-			let twitterPost = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-			twitterPost?.add(URL(string: "https://apps.apple.com/us/app/keepin/id1273915355"))
-			self.view?.window?.rootViewController?.present(twitterPost!, animated: true, completion: nil)
-        })
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(facebook)
-        alert.addAction(twitter)
-        alert.addAction(cancel)
-        
-        self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     func cutList () -> [UIColor] {
