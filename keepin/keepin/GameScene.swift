@@ -15,11 +15,13 @@ import Social
 import StoreKit
 
 
+@available(iOS 10.0, *)
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let fadeOut = SKAction.fadeAlpha(to: 0.3, duration: 0.4)
     let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.4)
     var sequenceX = SKAction()
+    var expandingCircleAction: SKAction!
     
     var firstPlay = true
     
@@ -441,7 +443,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         energyMeter.color = transitionColor
         
         energyMeter.name = "energyMeter"
-        
+
         let energyMeterFinalSize = CGSize(width: CGFloat(energyMeterWidth), height: CGFloat(energyMeterHeight))
         
         let expandAction = SKAction.resize(toWidth: energyMeterFinalSize.width, duration: 0.5)
@@ -452,7 +454,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.run(SKAction.repeatForever(sequenceX))
     }
     
-    func boundarySetup () {
+	func boundarySetup () {
+		
+		expandingCircleAction = SKAction.scale(to: CGSize(width: size.height * 3.0, height: size.height * 3.0), duration: 3.0)
+			
         boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: width * 0.9, height: width * 0.9))
         
         
@@ -739,6 +744,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
+		let expandingCircleNode = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: boundary.size.width + 10, height: boundary.size.height + 10))
+		expandingCircleNode.position = boundary.position
+		scene?.addChild(expandingCircleNode)
+		expandingCircleNode.run(expandingCircleAction, completion: { expandingCircleNode.removeFromParent() })
+		
         if !(abs(contact.contactPoint.x - lastContactpoint.x) < (size.width / 250) && abs(contact.contactPoint.y - lastContactpoint.y) < (size.width / 250)) {
             if distance(contact.contactPoint, CGPoint(x: size.width / 2, y: size.height / 2)) <= size.width * 0.435 {
                 score += 1
