@@ -20,7 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+		do {
+			try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+			try AVAudioSession.sharedInstance().setActive(true)
+		} catch (let error) {
+			print(error)
+		}
         return true
     }
     
