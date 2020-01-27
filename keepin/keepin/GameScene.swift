@@ -113,6 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let defaults = UserDefaults.standard
     
     
+    
     public enum Mask: UInt32 {
         case ball = 0
         case boundary = 1
@@ -141,8 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let crownImage = #imageLiteral(resourceName: "crown")
         let hundredcrownImage = #imageLiteral(resourceName: "100crown")
         
-        
-        let textureDictionary = ["boundary" : boundaryImage, "energyMeter" : energyMeterImage, "pauseButton" : pauseImage, "soundOn": soundOnImage, "rate" : rateImage, "mute" : muteImage, "share" : shareImage, "menu" : menuImage, "keepinTitle" : keepinTitleImage, "crown" : crownImage, "100crown" : hundredcrownImage]
+        let textureDictionary = ["boundary" : boundaryImage, "boundary-1" : UIImage(named: "boundary-1"), "boundary-2": UIImage(named: "boundary-2"), "boundary-3" : UIImage(named: "boundary-3"),  "energyMeter" : energyMeterImage, "pauseButton" : pauseImage, "soundOn": soundOnImage, "rate" : rateImage, "mute" : muteImage, "share" : shareImage, "menu" : menuImage, "keepinTitle" : keepinTitleImage, "crown" : crownImage, "100crown" : hundredcrownImage]
         
         textureAtlas = SKTextureAtlas(dictionary: textureDictionary)
         
@@ -668,8 +668,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func scaleDamping () {
-        let currentVelocity = velocity(vector: (ball.physicsBody?.velocity)!)
-        if (currentVelocity > 1000) {
+        let currentSpeed = speed(vector: (ball.physicsBody?.velocity)!)
+        if (currentSpeed > 1000) {
             ball.physicsBody?.linearDamping = 1.7
         } else {
             ball.physicsBody?.linearDamping = 0.0
@@ -744,8 +744,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-		let expandingCircleNode = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: boundary.size.width + 10, height: boundary.size.height + 10))
+		var expandingCircleTextureName: String!
+		var ballSpeed = speed(vector: ball.physicsBody!.velocity)
+		if  ballSpeed < 900 {
+			expandingCircleTextureName = "boundary-1"
+		} else if ballSpeed > 1100 {
+			expandingCircleTextureName = "boundary-3"
+		} else {
+			expandingCircleTextureName = "boundary-2"
+		}
+		let expandingCircleNode = SKSpriteNode(texture: textureAtlas.textureNamed(expandingCircleTextureName), size: CGSize(width: boundary.size.width + 10, height: boundary.size.height + 10))
 		expandingCircleNode.position = boundary.position
+		expandingCircleNode.colorBlendFactor = 1.0
+		expandingCircleNode.color = boundary.color
 		scene?.addChild(expandingCircleNode)
 		expandingCircleNode.run(expandingCircleAction, completion: { expandingCircleNode.removeFromParent() })
 		
@@ -762,6 +773,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let colorChange = SKAction.colorize(with: myColors[colorIndex % myColors.endIndex], colorBlendFactor: 1.0, duration: 1.0)
                     colorIndex += 1
                     energyMeter.run(colorChange)
+                    expandingCircleNode.run(colorChange)
                 }
             }
             lastContactpoint = contact.contactPoint
@@ -842,7 +854,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
     }
     
-    func velocity(vector: CGVector) -> CGFloat {
+    func speed(vector: CGVector) -> CGFloat {
         return sqrt(pow(vector.dx, 2.0) + pow(vector.dy, 2.0))
         
     }
