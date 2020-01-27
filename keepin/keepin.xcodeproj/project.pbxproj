@@ -21,6 +21,7 @@
 		FF259EAC1F4D3FEE00766E8D /* death.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAB1F4D3FEE00766E8D /* death.wav */; };
 		FF259EAE1F4D3FFD00766E8D /* gong.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAD1F4D3FFD00766E8D /* gong.wav */; };
 		FF259EB11F4D405000766E8D /* touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAF1F4D403F00766E8D /* touch.wav */; };
+		FF30D30623DEB21B00ED3967 /* contactSpark.sks in Resources */ = {isa = PBXBuildFile; fileRef = FF30D30523DEB21B00ED3967 /* contactSpark.sks */; };
 		FF7C85A22198DB080065FAF6 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7C85A12198DB080065FAF6 /* DeviceExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		FF259EAB1F4D3FEE00766E8D /* death.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = death.wav; sourceTree = "<group>"; };
 		FF259EAD1F4D3FFD00766E8D /* gong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gong.wav; sourceTree = "<group>"; };
 		FF259EAF1F4D403F00766E8D /* touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = touch.wav; sourceTree = "<group>"; };
+		FF30D30523DEB21B00ED3967 /* contactSpark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = contactSpark.sks; sourceTree = "<group>"; };
 		FF64D8DA1F4D080D008E9C84 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF7C85A12198DB080065FAF6 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
 		FF8D07671EFB4BD000A07028 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			children = (
 				FF259E8F1F4D387F00766E8D /* Main.storyboard */,
 				FF8D07671EFB4BD000A07028 /* GameScene.sks */,
+				FF30D30523DEB21B00ED3967 /* contactSpark.sks */,
 				FF8D07691EFB4BD000A07028 /* Actions.sks */,
 				FF259EA01F4D390700766E8D /* AppDelegate.swift */,
 				FF7C85A12198DB080065FAF6 /* DeviceExtension.swift */,
@@ -172,6 +175,7 @@
 				FF259EAC1F4D3FEE00766E8D /* death.wav in Resources */,
 				FF259E931F4D38A500766E8D /* assets.xcassets in Resources */,
 				FF259EB11F4D405000766E8D /* touch.wav in Resources */,
+				FF30D30623DEB21B00ED3967 /* contactSpark.sks in Resources */,
 				FF259EA41F4D3B2000766E8D /* newHighScore.sks in Resources */,
 				FF259E951F4D38B200766E8D /* LaunchScreen.storyboard in Resources */,
 				FF259E9C1F4D38D400766E8D /* Actions.sks in Resources */,

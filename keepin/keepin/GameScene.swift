@@ -756,11 +756,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		expandingCircleNodes.update(with: expandingCircleNode)
 		expandingCircleNode.run(expandingCircleAction, completion: {
 			expandingCircleNode.removeFromParent()
+			
 			self.expandingCircleNodes.remove(expandingCircleNode)
 		})
 		
         if !(abs(contact.contactPoint.x - lastContactpoint.x) < (size.width / 250) && abs(contact.contactPoint.y - lastContactpoint.y) < (size.width / 250)) {
             if distance(contact.contactPoint, CGPoint(x: size.width / 2, y: size.height / 2)) <= size.width * 0.435 {
+                let spark = SKEmitterNode(fileNamed: "contactSpark")
+                spark!.position = contact.contactPoint
+                spark!.numParticlesToEmit = 100
+                spark?.particleColor = energyMeter.color
+                spark?.emissionAngleRange = 10.0
+                
+                scene?.addChild(spark!)
                 score += 1
                 scoreLabel.text = String(score)
                 if !isMuted {
