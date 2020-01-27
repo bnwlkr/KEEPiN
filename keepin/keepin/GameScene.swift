@@ -82,13 +82,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var boundary = SKSpriteNode()
     var textureAtlas = SKTextureAtlas()
     var contactable = false
+	var expandingCircleNodes: Set<SKSpriteNode> = Set<SKSpriteNode>()
+	let expandingCircleTexture = SKTexture(imageNamed: "boundary-2")
     
     var lastContactpoint = CGPoint(x: 0, y: 0)
     
     // energyMeter
     var energyMeter = SKSpriteNode()
     var energyMeterWidth = 0.0
-    let depleteTime = 1.5
+    let depleteTime = 20.0//1.5
     let replenishTime = 3.0
     
     // ball
@@ -656,6 +658,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             startGame()
         }
+        
+        expandingCircleNodes.forEach({ circleNode in circleNode.color = energyMeter.color })
  
         if energyMeter.size.width == 0.0 && GameScene.gameState != GameState.startScreen {
             setContactable(contact: false)
@@ -744,21 +748,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-		var expandingCircleTextureName: String!
-		var ballSpeed = speed(vector: ball.physicsBody!.velocity)
-		if  ballSpeed < 900 {
-			expandingCircleTextureName = "boundary-1"
-		} else if ballSpeed > 1100 {
-			expandingCircleTextureName = "boundary-3"
-		} else {
-			expandingCircleTextureName = "boundary-2"
-		}
-		let expandingCircleNode = SKSpriteNode(texture: textureAtlas.textureNamed(expandingCircleTextureName), size: CGSize(width: boundary.size.width + 10, height: boundary.size.height + 10))
+		let expandingCircleNode = SKSpriteNode(texture: expandingCircleTexture, size: boundary.size)
 		expandingCircleNode.position = boundary.position
 		expandingCircleNode.colorBlendFactor = 1.0
 		expandingCircleNode.color = boundary.color
 		scene?.addChild(expandingCircleNode)
-		expandingCircleNode.run(expandingCircleAction, completion: { expandingCircleNode.removeFromParent() })
+		expandingCircleNodes.update(with: expandingCircleNode)
+		expandingCircleNode.run(expandingCircleAction, completion: {
+			expandingCircleNode.removeFromParent()
+			self.expandingCircleNodes.remove(expandingCircleNode)
+		})
 		
         if !(abs(contact.contactPoint.x - lastContactpoint.x) < (size.width / 250) && abs(contact.contactPoint.y - lastContactpoint.y) < (size.width / 250)) {
             if distance(contact.contactPoint, CGPoint(x: size.width / 2, y: size.height / 2)) <= size.width * 0.435 {
@@ -773,7 +772,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let colorChange = SKAction.colorize(with: myColors[colorIndex % myColors.endIndex], colorBlendFactor: 1.0, duration: 1.0)
                     colorIndex += 1
                     energyMeter.run(colorChange)
-                    expandingCircleNode.run(colorChange)
                 }
             }
             lastContactpoint = contact.contactPoint
