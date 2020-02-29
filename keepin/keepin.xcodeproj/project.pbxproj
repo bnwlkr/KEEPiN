@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD9D1CE50776FB242CE3F96C /* Pods_KEEPiN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3BEE74F974E3EF52DD5316 /* Pods_KEEPiN.framework */; };
 		FF1CEA32240AE7FD00F3B260 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1CEA31240AE7FD00F3B260 /* LeaderboardView.swift */; };
+		FF1CEA34240AF2FC00F3B260 /* LeaderboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1CEA33240AF2FC00F3B260 /* LeaderboardRow.swift */; };
+		FF1CEA36240AF33E00F3B260 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1CEA35240AF33E00F3B260 /* Player.swift */; };
+		FF1CEA38240AF75E00F3B260 /* LeaderboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1CEA37240AF75E00F3B260 /* LeaderboardManager.swift */; };
 		FF259E901F4D387F00766E8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF259E8F1F4D387F00766E8D /* Main.storyboard */; };
 		FF259E931F4D38A500766E8D /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF259E891F4D379200766E8D /* assets.xcassets */; };
 		FF259E951F4D38B200766E8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF64D8DA1F4D080D008E9C84 /* LaunchScreen.storyboard */; };
@@ -27,7 +31,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		249F91ECEFE5B75F911CCA49 /* Pods-KEEPiN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KEEPiN.debug.xcconfig"; path = "Target Support Files/Pods-KEEPiN/Pods-KEEPiN.debug.xcconfig"; sourceTree = "<group>"; };
+		4F3BEE74F974E3EF52DD5316 /* Pods_KEEPiN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KEEPiN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3FFE29D95414985AE7049E3 /* Pods-KEEPiN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KEEPiN.release.xcconfig"; path = "Target Support Files/Pods-KEEPiN/Pods-KEEPiN.release.xcconfig"; sourceTree = "<group>"; };
 		FF1CEA31240AE7FD00F3B260 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		FF1CEA33240AF2FC00F3B260 /* LeaderboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardRow.swift; sourceTree = "<group>"; };
+		FF1CEA35240AF33E00F3B260 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FF1CEA37240AF75E00F3B260 /* LeaderboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardManager.swift; sourceTree = "<group>"; };
 		FF259E751F4D375700766E8D /* KEEPiN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KEEPiN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF259E891F4D379200766E8D /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = assets.xcassets; sourceTree = "<group>"; };
 		FF259E8F1F4D387F00766E8D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -53,12 +63,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD9D1CE50776FB242CE3F96C /* Pods_KEEPiN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72D10A3DF8FA3790A7BE7151 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F3BEE74F974E3EF52DD5316 /* Pods_KEEPiN.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		813144DFB7274B852E1C1AC7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				249F91ECEFE5B75F911CCA49 /* Pods-KEEPiN.debug.xcconfig */,
+				D3FFE29D95414985AE7049E3 /* Pods-KEEPiN.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		FF259ECA1F4D4BBC00766E8D /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +104,8 @@
 			children = (
 				FF8D07641EFB4BD000A07028 /* keepin */,
 				FF8D07631EFB4BD000A07028 /* Products */,
+				813144DFB7274B852E1C1AC7 /* Pods */,
+				72D10A3DF8FA3790A7BE7151 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,7 +133,10 @@
 				FF259E911F4D389A00766E8D /* Info.plist */,
 				FF259E891F4D379200766E8D /* assets.xcassets */,
 				FFCB575B1F17F1EA00BFA1E0 /* newHighScore.sks */,
+				FF1CEA37240AF75E00F3B260 /* LeaderboardManager.swift */,
 				FF1CEA31240AE7FD00F3B260 /* LeaderboardView.swift */,
+				FF1CEA33240AF2FC00F3B260 /* LeaderboardRow.swift */,
+				FF1CEA35240AF33E00F3B260 /* Player.swift */,
 			);
 			path = keepin;
 			sourceTree = "<group>";
@@ -115,10 +148,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FF259E841F4D375700766E8D /* Build configuration list for PBXNativeTarget "KEEPiN" */;
 			buildPhases = (
+				8EC4E7180C241BE0E23C42A2 /* [CP] Check Pods Manifest.lock */,
 				FF259E711F4D375700766E8D /* Sources */,
 				FF259E721F4D375700766E8D /* Frameworks */,
 				FF259E731F4D375700766E8D /* Resources */,
 				FF8BE0751F5BC85E000418EA /* ShellScript */,
+				125EFEC8B881847C43CA46CE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,6 +223,46 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		125EFEC8B881847C43CA46CE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KEEPiN/Pods-KEEPiN-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KEEPiN/Pods-KEEPiN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8EC4E7180C241BE0E23C42A2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KEEPiN-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FF8BE0751F5BC85E000418EA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -210,7 +285,10 @@
 			files = (
 				FF1CEA32240AE7FD00F3B260 /* LeaderboardView.swift in Sources */,
 				FF259EA11F4D390700766E8D /* AppDelegate.swift in Sources */,
+				FF1CEA34240AF2FC00F3B260 /* LeaderboardRow.swift in Sources */,
+				FF1CEA38240AF75E00F3B260 /* LeaderboardManager.swift in Sources */,
 				FF7C85A22198DB080065FAF6 /* DeviceExtension.swift in Sources */,
+				FF1CEA36240AF33E00F3B260 /* Player.swift in Sources */,
 				FF259E9B1F4D38D100766E8D /* GameScene.swift in Sources */,
 				FF259E9A1F4D38CD00766E8D /* GameViewController.swift in Sources */,
 			);
@@ -221,6 +299,7 @@
 /* Begin XCBuildConfiguration section */
 		FF259E851F4D375700766E8D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 249F91ECEFE5B75F911CCA49 /* Pods-KEEPiN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -233,7 +312,7 @@
 					"$(PROJECT_DIR)/keepin",
 				);
 				INFOPLIST_FILE = KEEPiN/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bnwlkr.KEEPiN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -246,6 +325,7 @@
 		};
 		FF259E861F4D375700766E8D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3FFE29D95414985AE7049E3 /* Pods-KEEPiN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -258,7 +338,7 @@
 					"$(PROJECT_DIR)/keepin",
 				);
 				INFOPLIST_FILE = KEEPiN/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bnwlkr.KEEPiN;
 				PRODUCT_NAME = "$(TARGET_NAME)";

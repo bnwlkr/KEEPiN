@@ -15,7 +15,6 @@ protocol ViewControllerDelegate {
     func presentLeaderboard()
 }
 
-@available(iOS 13.0.0, *)
 class GameViewController: UIViewController, ViewControllerDelegate  {
 
 	
@@ -33,9 +32,7 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
                 // Present the scene
                 view.presentScene(scene)
             }
-            
             view.ignoresSiblingOrder = true
-            
         }
         
 	}

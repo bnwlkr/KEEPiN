@@ -17,7 +17,6 @@ import UIKit
 import SwiftUI
 
 
-@available(iOS 13.0.0, *)
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var viewControllerDelegate: ViewControllerDelegate?
