@@ -13,10 +13,15 @@ import GameplayKit
 import AVFoundation
 import Social
 import StoreKit
+import UIKit
+import SwiftUI
 
 
-@available(iOS 10.0, *)
+@available(iOS 13.0.0, *)
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    var viewControllerDelegate: ViewControllerDelegate?
+    
     
     let fadeOut = SKAction.fadeAlpha(to: 0.3, duration: 0.4)
     let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.4)
@@ -807,18 +812,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func rate () {
-        if #available(iOS 10.3, *) {
-            SKStoreReviewController.requestReview()
-        } else {
-            rateApp(appId: "id1273915355", completion: {_ in })
-        }
+		rateApp(appId: "id1273915355")
     }
     
-    func share () {
+	func share () {
         if !isMuted {
             run(audioClick!)
         }
-        print("clicked share button") // TODO: leaderboard
+        self.viewControllerDelegate?.presentLeaderboard()
     }
     
     func sound () {
@@ -870,16 +871,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
         
-    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
-            completion(false)
-            return
-        }
-        guard #available(iOS 10, *) else {
-            completion(UIApplication.shared.openURL(url))
-            return
-        }
-        UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: completion)
+    func rateApp(appId: String) {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else { return }
+		UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
     }
     
     func cutList () -> [UIColor] {

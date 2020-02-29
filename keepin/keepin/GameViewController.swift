@@ -7,21 +7,28 @@
 //
 
 import UIKit
+import SwiftUI
 import SpriteKit
 import GameplayKit
 
+protocol ViewControllerDelegate {
+    func presentLeaderboard()
+}
 
+@available(iOS 13.0.0, *)
+class GameViewController: UIViewController, ViewControllerDelegate  {
 
-class GameViewController: UIViewController  {
-
-    override func viewDidLoad() {
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
     
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
+                
+                scene.viewControllerDelegate = self
                 
                 // Present the scene
                 view.presentScene(scene)
@@ -31,10 +38,13 @@ class GameViewController: UIViewController  {
             
         }
         
-        
-        
-    }
+	}
 
+
+	func presentLeaderboard() {
+		let vc = UIHostingController(rootView: LeaderboardView())
+		self.present(vc, animated: true, completion: nil)
+	}
     
     override func viewWillDisappear(_ animated: Bool) {
         

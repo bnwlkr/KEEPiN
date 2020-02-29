@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF1CEA32240AE7FD00F3B260 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1CEA31240AE7FD00F3B260 /* LeaderboardView.swift */; };
 		FF259E901F4D387F00766E8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF259E8F1F4D387F00766E8D /* Main.storyboard */; };
 		FF259E931F4D38A500766E8D /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF259E891F4D379200766E8D /* assets.xcassets */; };
 		FF259E951F4D38B200766E8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF64D8DA1F4D080D008E9C84 /* LaunchScreen.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF1CEA31240AE7FD00F3B260 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		FF259E751F4D375700766E8D /* KEEPiN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KEEPiN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF259E891F4D379200766E8D /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = assets.xcassets; sourceTree = "<group>"; };
 		FF259E8F1F4D387F00766E8D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				FF259E911F4D389A00766E8D /* Info.plist */,
 				FF259E891F4D379200766E8D /* assets.xcassets */,
 				FFCB575B1F17F1EA00BFA1E0 /* newHighScore.sks */,
+				FF1CEA31240AE7FD00F3B260 /* LeaderboardView.swift */,
 			);
 			path = keepin;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF1CEA32240AE7FD00F3B260 /* LeaderboardView.swift in Sources */,
 				FF259EA11F4D390700766E8D /* AppDelegate.swift in Sources */,
 				FF7C85A22198DB080065FAF6 /* DeviceExtension.swift in Sources */,
 				FF259E9B1F4D38D100766E8D /* GameScene.swift in Sources */,
@@ -315,7 +319,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -369,7 +373,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
