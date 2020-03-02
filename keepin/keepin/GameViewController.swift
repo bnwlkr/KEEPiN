@@ -39,7 +39,9 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 
 
 	func presentLeaderboard() {
-		let vc = UIHostingController(rootView: LeaderboardView())
+		let vc = UIHostingController(rootView: LeaderboardView(dismiss: {self.dismiss(animated: true, completion: nil)}))
+		vc.overrideUserInterfaceStyle = .dark
+		vc.view.alpha = 0.9
 		self.present(vc, animated: true, completion: nil)
 	}
     

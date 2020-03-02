@@ -10,13 +10,28 @@ import Foundation
 import Alamofire
 
 
-class LeaderboardManager {
-		
-	static var apiUrl = "https://keepin.bnwl.kr/"
+class LeaderboardManager: ObservableObject {
+	@Published var players: [Player] = []
+	var apiUrl = "https://keepin.bnwl.kr/"
 	
-	static func getLeaderboard() {
-		AF.request(LeaderboardManager.apiUrl + "leaderboard").responseJSON { response in
-			print(response)
+	func getLeaderboard() {
+		AF.request(apiUrl + "leaderboard").responseJSON { response in
+			switch response.result {
+				case .failure(let error):
+					print(error)
+				case .success(let afResult):
+					if let result = afResult as? [[String:Any]] {
+						var players: [Player] = []
+						for playerData in result {
+							if let username = playerData["username"] as? String {
+								if let highscore = playerData["highscore"] as? Int {
+									players.append(Player(username: username, highscore: highscore))
+								}
+							}
+						}
+						self.players = players
+					}
+			}
 		}
 	}
 
