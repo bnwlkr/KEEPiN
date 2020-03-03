@@ -13,10 +13,12 @@ import GameplayKit
 
 protocol ViewControllerDelegate {
     func presentLeaderboard()
+    func requestUsername()
 }
 
 class GameViewController: UIViewController, ViewControllerDelegate  {
 
+	var leaderboardHostingVC: UIHostingController<LeaderboardView>?
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +39,30 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
         
 	}
 
+	func requestUsername() {
+		let alertController = UIAlertController(title: "Create Username", message: "Create a username if you'd like to participate in the KEEPiN leaderboard", preferredStyle: .alert)
+		let okAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) {
+			  UIAlertAction in
+			  NSLog("Submit Pressed")
+		}
+		let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
+			UIAlertAction in
+			NSLog("Cancel Pressed")
+		}
+	   alertController.addAction(okAction)
+	   alertController.addAction(cancelAction)
+	   alertController.addTextField { (textField) in
+		   textField.placeholder = "Username"
+	   }
+
+		self.leaderboardHostingVC?.present(alertController, animated: true, completion: nil)
+	}
 
 	func presentLeaderboard() {
-		let vc = UIHostingController(rootView: LeaderboardView(dismiss: {self.dismiss(animated: true, completion: nil)}))
+		let vc = UIHostingController(rootView: LeaderboardView(gameVC: self, dismiss: {self.dismiss(animated: true, completion: nil)}))
 		vc.overrideUserInterfaceStyle = .dark
 		vc.view.alpha = 0.9
+		self.leaderboardHostingVC = vc
 		self.present(vc, animated: true, completion: nil)
 	}
     

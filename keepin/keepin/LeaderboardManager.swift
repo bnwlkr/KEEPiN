@@ -34,6 +34,11 @@ class LeaderboardManager: ObservableObject {
 			}
 		}
 	}
+	
+	func createUser (username: String, success: @escaping ()->(), failure: @escaping ()->()) {
+		
+		
+	}
 
 
 }

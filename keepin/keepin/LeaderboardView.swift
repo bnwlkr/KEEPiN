@@ -11,9 +11,11 @@ import SwiftUI
 struct LeaderboardView: View {
 	@ObservedObject var leaderboardManager = LeaderboardManager()
 	var dismiss: () -> Void = {}
-	init(dismiss: @escaping () -> Void) {
+	var gameVC: GameViewController?
+	init(gameVC: GameViewController, dismiss: @escaping () -> Void) {
 		leaderboardManager.getLeaderboard()
 		self.dismiss = dismiss
+		self.gameVC = gameVC
 	}
 
 	var body: some View {
@@ -30,6 +32,9 @@ struct LeaderboardView: View {
 					Text("Done").fontWeight(.bold)
 				}
 			)
+		}.onAppear {
+			self.leaderboardManager.getLeaderboard()
+			self.gameVC?.requestUsername()
 		}
     }
 }
@@ -37,6 +42,6 @@ struct LeaderboardView: View {
 
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardView(dismiss: {})
+        Text("Whatever, dude")
     }
 }
