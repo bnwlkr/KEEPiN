@@ -1,0 +1,14 @@
+[Unit]
+Description=KEEPiN Leaderboard Server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+User=root
+ExecStart=/snap/bin/go run /home/bnwlkr/KEEPiN/leaderboard/server.go
+
+[Install]
+WantedBy=multi-user.target
