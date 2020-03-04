@@ -12,10 +12,10 @@ import Alamofire
 
 class LeaderboardManager: ObservableObject {
 	@Published var players: [Player] = []
-	var apiUrl = "https://keepin.bnwl.kr/"
+	static var apiUrl = "https://keepin.bnwl.kr/"
 	
 	func getLeaderboard() {
-		AF.request(apiUrl + "leaderboard").responseJSON { response in
+		AF.request(LeaderboardManager.apiUrl + "leaderboard").responseJSON { response in
 			switch response.result {
 				case .failure(let error):
 					print(error)
@@ -35,8 +35,30 @@ class LeaderboardManager: ObservableObject {
 		}
 	}
 	
-	func createUser (username: String, success: @escaping ()->(), failure: @escaping ()->()) {
-		
+	
+	static func existsUser(username: String, completion: @escaping (Bool) -> ()) {
+		let parameters: Parameters = ["username": username]
+		AF.request(apiUrl + "existsuser", method: .post, parameters: parameters).responseString { response in
+			switch response.result {
+				case .success(let result):
+					completion(result == "true")
+				case .failure(let error):
+					print(error)
+			
+			}
+		}
+	}
+	
+	static func newUser (username: String, highscore: Int, success: @escaping ()->(), failure: @escaping ()->()) {
+		let parameters: Parameters = ["username": username, "highscore": highscore]
+		AF.request(apiUrl + "newuser", method: .post, parameters: parameters).response { response in
+			switch response.result {
+				case .failure(let error):
+					print(error)
+				case .success(let result):
+					print(result!)
+			}
+		}
 		
 	}
 
