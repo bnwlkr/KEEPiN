@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Player {
+class Player: Identifiable {
 	var username: String!
 	var highscore: Int = 0
 	

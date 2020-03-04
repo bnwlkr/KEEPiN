@@ -9,21 +9,39 @@
 import SwiftUI
 
 struct LeaderboardView: View {
-	var players: Array<Player>
-	init() {
-		LeaderboardManager.getLeaderboard()
-		self.players = []
+	@ObservedObject var leaderboardManager = LeaderboardManager()
+	var dismiss: () -> Void = {}
+	var gameVC: GameViewController?
+	init(gameVC: GameViewController, dismiss: @escaping () -> Void) {
+		leaderboardManager.getLeaderboard()
+		self.dismiss = dismiss
+		self.gameVC = gameVC
 	}
 
-
 	var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		NavigationView {
+			List(leaderboardManager.players) { player in
+				HStack {
+					Text(player.username)
+					Text(String(player.highscore))
+				}
+			}
+			.navigationBarTitle("LEADERBOARD 🏆")
+			.navigationBarItems(trailing:
+				Button (action: dismiss) {
+					Text("Done").fontWeight(.bold)
+				}
+			)
+		}.onAppear {
+			self.leaderboardManager.getLeaderboard()
+			self.gameVC?.requestUsername()
+		}
     }
 }
 
 
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardView()
+        Text("Whatever, dude")
     }
 }
