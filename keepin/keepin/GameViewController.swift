@@ -13,7 +13,7 @@ import GameplayKit
 
 protocol ViewControllerDelegate {
     func presentLeaderboard()
-    func requestUsername()
+    func requestUsername(leaderboardManager: LeaderboardManager)
 }
 
 class GameViewController: UIViewController, ViewControllerDelegate  {
@@ -79,14 +79,18 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 		}
 	}
 
-	func requestUsername() {
+	func requestUsername(leaderboardManager: LeaderboardManager) {
 		self.alertController = UIAlertController(title: "Create Username", message: "", preferredStyle: .alert)
 		isUsernameCorrectLength = false
 		doesUsernameExist = false
 		
-		let okAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) {
+		let submitAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) {
 			  UIAlertAction in
-			  
+			let username = self.alertController.textFields![0].text!
+			LeaderboardManager.newUser(username: username, highscore: UserDefaults.standard.integer(forKey: "best"), success: {
+				UserDefaults.standard.set(username, forKey: "username")
+				leaderboardManager.getLeaderboard()
+			})
 		}
 		
 		let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
@@ -95,7 +99,7 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 		}
 		
 		alertController.addAction(cancelAction)
-		alertController.addAction(okAction)
+		alertController.addAction(submitAction)
 		alertController.addTextField { (textField) in
 		   textField.placeholder = "Username"
 		   textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)

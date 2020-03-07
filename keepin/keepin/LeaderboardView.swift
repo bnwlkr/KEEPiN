@@ -34,7 +34,9 @@ struct LeaderboardView: View {
 			)
 		}.onAppear {
 			self.leaderboardManager.getLeaderboard()
-			self.gameVC?.requestUsername()
+			if UserDefaults.standard.string(forKey: "username") == nil {
+				self.gameVC?.requestUsername(leaderboardManager: self.leaderboardManager)
+			}
 		}
     }
 }

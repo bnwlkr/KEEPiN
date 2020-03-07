@@ -29,7 +29,7 @@ class LeaderboardManager: ObservableObject {
 								}
 							}
 						}
-						self.players = players
+						self.players = players.sorted(by: {playerA, playerB  in playerA.highscore > playerB.highscore})
 					}
 			}
 		}
@@ -49,7 +49,7 @@ class LeaderboardManager: ObservableObject {
 		}
 	}
 	
-	static func newUser (username: String, highscore: Int, success: @escaping ()->(), failure: @escaping ()->()) {
+	static func newUser (username: String, highscore: Int, success: @escaping ()->()) {
 		let parameters: Parameters = ["username": username, "highscore": highscore]
 		AF.request(apiUrl + "newuser", method: .post, parameters: parameters).response { response in
 			switch response.result {
@@ -57,9 +57,21 @@ class LeaderboardManager: ObservableObject {
 					print(error)
 				case .success(let result):
 					print(result!)
+					success()
 			}
 		}
-		
+	}
+	
+	static func newHighscore(username: String, highscore: Int) {
+		let parameters: Parameters = ["username": username, "highscore": highscore]
+		AF.request(apiUrl + "highscore", method: .post, parameters: parameters).response { response in
+			switch response.result {
+				case .failure(let error):
+					print(error)
+				case .success(let result):
+					print(result!)
+			}
+		}
 	}
 
 
