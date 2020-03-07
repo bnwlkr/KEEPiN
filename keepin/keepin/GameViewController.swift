@@ -20,8 +20,26 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 
 	var leaderboardHostingVC: UIHostingController<LeaderboardView>?
 	var alertController: UIAlertController!
-	let alertControllerDefaultMessage = "Create a username if you'd like to participate in the KEEPiN leaderboard\n\n⛔️ 4 - 16 characters\n✅ Does not exist"
-	
+	let msg1 = "Create a username if you'd like to participate in the KEEPiN leaderboard\n\n4 - 16 characters  "
+	let msg2 = "\nDoes not exist       "
+	var isUsernameCorrectLength: Bool {
+		get {
+			return _isUsernameCorrectLength
+		} set {
+			_isUsernameCorrectLength = newValue
+			alertController.message = msg1 + (newValue ? "✅" : "⛔️") + msg2 + (doesUsernameExist ? "⛔️" : "✅")
+		}
+	}
+	var doesUsernameExist: Bool {
+		get {
+			return _doesUsernameExist
+		} set {
+			_doesUsernameExist = newValue
+			alertController.message = msg1 + (isUsernameCorrectLength ? "✅" : "⛔️") + msg2 + (newValue ? "⛔️" : "✅")
+		}
+	}
+	var _isUsernameCorrectLength = false
+	var _doesUsernameExist = false
 	override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -43,27 +61,28 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 
 	@objc func textChanged(sender: UITextField) {
 		self.alertController.actions[1].isEnabled = false
-		self.alertController.message! = alertControllerDefaultMessage
 		if let currentInput = sender.text {
 			if currentInput.count >= 4 && currentInput.count <= 16 {
+				self.isUsernameCorrectLength = true
 				LeaderboardManager.existsUser(username: currentInput, completion: {	exists in
+					self.doesUsernameExist = exists
 					if !exists {
 						self.alertController.actions[1].isEnabled = true
-						
 					} else {
 						self.alertController.actions[1].isEnabled = false
-						self.alertController.message! += "\n\n That username already exists :("
 					}
 				})
 			} else {
-				self.alertController.message! += "\n\nYour username must be between 4 and 16 characters"
+				self.isUsernameCorrectLength = false
 				self.alertController.actions[1].isEnabled = false
 			}
 		}
 	}
 
 	func requestUsername() {
-		self.alertController = UIAlertController(title: "Create Username", message: alertControllerDefaultMessage, preferredStyle: .alert)
+		self.alertController = UIAlertController(title: "Create Username", message: "", preferredStyle: .alert)
+		isUsernameCorrectLength = false
+		doesUsernameExist = false
 		
 		let okAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) {
 			  UIAlertAction in
