@@ -4,6 +4,7 @@ After=network.target
 StartLimitIntervalSec=0
 
 [Service]
+Environment=KEEPIN_LEADERBOARD_PATH=/home/bnwlkr/leaderboard.db
 Type=simple
 Restart=always
 RestartSec=10
