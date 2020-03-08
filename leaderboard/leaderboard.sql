@@ -1,1 +1,3 @@
-create table highscores(username varchar(255) primary key, highscore int)
+create table Players(username char(16) primary key,
+			highscore int DEFAULT 0,
+			locale char(16) DEFAULT "")
