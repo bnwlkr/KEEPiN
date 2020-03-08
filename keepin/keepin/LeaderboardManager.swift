@@ -25,7 +25,9 @@ class LeaderboardManager: ObservableObject {
 						for playerData in result {
 							if let username = playerData["username"] as? String {
 								if let highscore = playerData["highscore"] as? Int {
-									players.append(Player(username: username, highscore: highscore))
+									if let region = playerData["region"] as? String {
+										players.append(Player(username: username, highscore: highscore, region: region))
+									}
 								}
 							}
 						}
@@ -49,30 +51,19 @@ class LeaderboardManager: ObservableObject {
 		}
 	}
 	
-	static func newUser (username: String, highscore: Int, success: @escaping ()->()) {
-		let parameters: Parameters = ["username": username, "highscore": highscore]
-		AF.request(apiUrl + "newuser", method: .post, parameters: parameters).response { response in
-			switch response.result {
-				case .failure(let error):
-					print(error)
-				case .success(let result):
-					print(result!)
-					success()
-			}
+	static func newHighscore(username: String, highscore: Int, success: (()->())?) {
+		var parameters: Parameters = ["username": username, "highscore": highscore]
+		if let region = Locale.current.regionCode {
+			parameters["region"] = region
 		}
-	}
-	
-	static func newHighscore(username: String, highscore: Int) {
-		let parameters: Parameters = ["username": username, "highscore": highscore]
 		AF.request(apiUrl + "highscore", method: .post, parameters: parameters).response { response in
 			switch response.result {
 				case .failure(let error):
 					print(error)
-				case .success(let result):
-					print(result!)
+				case .success:
+					success?()
 			}
 		}
 	}
-
-
+	
 }

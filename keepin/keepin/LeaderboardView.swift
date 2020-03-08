@@ -17,6 +17,15 @@ struct LeaderboardView: View {
 		self.dismiss = dismiss
 		self.gameVC = gameVC
 	}
+	
+	func flag(region: String) -> String {
+		let base : UInt32 = 127397
+		var s = ""
+		for v in region.unicodeScalars {
+			s.unicodeScalars.append(UnicodeScalar(base + v.value)!)
+		}
+		return String(s)
+	}
 
 	var body: some View {
 		NavigationView {

@@ -208,7 +208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if let username = defaults.string(forKey: "username") {
-			LeaderboardManager.newHighscore(username: username, highscore: defaults.integer(forKey: "best"))
+			LeaderboardManager.newHighscore(username: username, highscore: defaults.integer(forKey: "best"), success: nil)
 		}
         
         let spark = SKEmitterNode(fileNamed: "newHighScore")

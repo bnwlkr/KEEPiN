@@ -12,9 +12,11 @@ import Foundation
 class Player: Identifiable {
 	var username: String!
 	var highscore: Int = 0
+	var region: String!
 	
-	init(username: String, highscore: Int) {
+	init(username: String, highscore: Int, region: String) {
     	self.username = username
     	self.highscore = highscore
+    	self.region = region
 	}
 }

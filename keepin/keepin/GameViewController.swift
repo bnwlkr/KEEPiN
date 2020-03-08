@@ -40,9 +40,10 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 	}
 	var _isUsernameCorrectLength = false
 	var _doesUsernameExist = false
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
-    
+		
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
@@ -87,7 +88,7 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 		let submitAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) {
 			  UIAlertAction in
 			let username = self.alertController.textFields![0].text!
-			LeaderboardManager.newUser(username: username, highscore: UserDefaults.standard.integer(forKey: "best"), success: {
+			LeaderboardManager.newHighscore(username: username, highscore: UserDefaults.standard.integer(forKey: "best"), success: {
 				UserDefaults.standard.set(username, forKey: "username")
 				leaderboardManager.getLeaderboard()
 			})
