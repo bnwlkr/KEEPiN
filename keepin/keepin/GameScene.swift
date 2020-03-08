@@ -199,15 +199,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func newHighScore () {
         if !isMuted {
-            
             if defaults.bool(forKey: "royalty") && !defaults.bool(forKey: "congratted")  {
                 run(audioUrAwesome!)
                 defaults.set(true, forKey: "congratted")
             } else {
-                
                 run(audioCongrats!)
             }
         }
+        
+        if let username = defaults.string(forKey: "username") {
+			LeaderboardManager.newHighscore(username: username, highscore: defaults.integer(forKey: "best"))
+		}
         
         let spark = SKEmitterNode(fileNamed: "newHighScore")
         let spark2 = SKEmitterNode(fileNamed: "newHighScore")
