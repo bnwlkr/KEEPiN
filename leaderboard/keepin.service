@@ -5,6 +5,7 @@ StartLimitIntervalSec=0
 
 [Service]
 Environment=KEEPIN_LEADERBOARD_PATH=/home/bnwlkr/leaderboard.db
+Environment=KEEPIN_SECRET=N9CXZIY331zHMGdtQQcS9wkV5aaqBfWJ357aArEpVzE=
 Type=simple
 Restart=always
 RestartSec=10

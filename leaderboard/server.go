@@ -20,6 +20,7 @@ type Player struct {
 }
 
 func getLeaderboardHandler(w http.ResponseWriter, r *http.Request) {
+	if r.FormValue("secret") != os.Getenv("KEEPIN_SECRET") { log.Println("Request with invalid secret"); return }
 	playerRows, err := leaderboardDB.Query("select username, highscore, region from Players")
 	if err != nil { log.Println(err); return }
 	var players []Player
@@ -44,6 +45,7 @@ func existsUser(username string) bool {
 }
 
 func existsUserHandler(w http.ResponseWriter, r *http.Request) {
+	if r.FormValue("secret") != os.Getenv("KEEPIN_SECRET") { log.Println("Request with invalid secret"); return }
 	username := r.FormValue("username")
 	if existsUser(username) {
 		w.Write([]byte("true"))
@@ -53,6 +55,7 @@ func existsUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func highscoreHandler(w http.ResponseWriter, r *http.Request) {
+	if r.FormValue("secret") != os.Getenv("KEEPIN_SECRET") { log.Println("Request with invalid secret"); return }
 	username := r.FormValue("username")
 	highscore := r.FormValue("highscore")
 	region := r.FormValue("region")
