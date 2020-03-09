@@ -20,12 +20,12 @@ type Player struct {
 }
 
 func getLeaderboardHandler(w http.ResponseWriter, r *http.Request) {
-	playerRows, err := leaderboardDB.Query("select (username, highscore, region) from Players")
+	playerRows, err := leaderboardDB.Query("select username, highscore, region from Players")
 	if err != nil { log.Println(err); return }
 	var players []Player
 	for playerRows.Next() {
 		var player Player
-		err := playerRows.Scan(&player.Username, &player.Highscore)
+		err := playerRows.Scan(&player.Username, &player.Highscore, &player.Region)
 		if err != nil { log.Println(err) }
 		players = append(players, player)
 	}
