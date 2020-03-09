@@ -10,6 +10,7 @@ import Foundation
 
 
 class Player: Identifiable {
+	
 	var username: String!
 	var highscore: Int = 0
 	var region: String!

@@ -17,25 +17,14 @@ struct LeaderboardView: View {
 		self.dismiss = dismiss
 		self.gameVC = gameVC
 	}
-	
-	func flag(region: String) -> String {
-		let base : UInt32 = 127397
-		var s = ""
-		for v in region.unicodeScalars {
-			s.unicodeScalars.append(UnicodeScalar(base + v.value)!)
-		}
-		return String(s)
-	}
 
 	var body: some View {
+		
 		NavigationView {
-			List(leaderboardManager.players) { player in
-				HStack {
-					Text(player.username)
-					Text(String(player.highscore))
-				}
+			List (leaderboardManager.players.enumerated().map({$0}), id: \.element.username) { i, player in
+				LeaderboardRow(player: player, isTop: i == 0)
 			}
-			.navigationBarTitle("LEADERBOARD 🏆")
+			.navigationBarTitle("LEADERBOARD")
 			.navigationBarItems(trailing:
 				Button (action: dismiss) {
 					Text("Done").fontWeight(.bold)

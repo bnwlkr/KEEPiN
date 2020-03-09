@@ -27,7 +27,6 @@
 		FF259EAE1F4D3FFD00766E8D /* gong.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAD1F4D3FFD00766E8D /* gong.wav */; };
 		FF259EB11F4D405000766E8D /* touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF259EAF1F4D403F00766E8D /* touch.wav */; };
 		FF30D30623DEB21B00ED3967 /* contactSpark.sks in Resources */ = {isa = PBXBuildFile; fileRef = FF30D30523DEB21B00ED3967 /* contactSpark.sks */; };
-		FF7C85A22198DB080065FAF6 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7C85A12198DB080065FAF6 /* DeviceExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +49,6 @@
 		FF259EAF1F4D403F00766E8D /* touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = touch.wav; sourceTree = "<group>"; };
 		FF30D30523DEB21B00ED3967 /* contactSpark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = contactSpark.sks; sourceTree = "<group>"; };
 		FF64D8DA1F4D080D008E9C84 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		FF7C85A12198DB080065FAF6 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
 		FF8D07671EFB4BD000A07028 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		FF8D07691EFB4BD000A07028 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		FF8D076B1EFB4BD000A07028 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 				FF30D30523DEB21B00ED3967 /* contactSpark.sks */,
 				FF8D07691EFB4BD000A07028 /* Actions.sks */,
 				FF259EA01F4D390700766E8D /* AppDelegate.swift */,
-				FF7C85A12198DB080065FAF6 /* DeviceExtension.swift */,
 				FF8D076B1EFB4BD000A07028 /* GameScene.swift */,
 				FF8D076D1EFB4BD000A07028 /* GameViewController.swift */,
 				FF259ECA1F4D4BBC00766E8D /* Sounds */,
@@ -287,7 +284,6 @@
 				FF259EA11F4D390700766E8D /* AppDelegate.swift in Sources */,
 				FF1CEA34240AF2FC00F3B260 /* LeaderboardRow.swift in Sources */,
 				FF1CEA38240AF75E00F3B260 /* LeaderboardManager.swift in Sources */,
-				FF7C85A22198DB080065FAF6 /* DeviceExtension.swift in Sources */,
 				FF1CEA36240AF33E00F3B260 /* Player.swift in Sources */,
 				FF259E9B1F4D38D100766E8D /* GameScene.swift in Sources */,
 				FF259E9A1F4D38CD00766E8D /* GameViewController.swift in Sources */,
@@ -399,7 +395,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -453,7 +449,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

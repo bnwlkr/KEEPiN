@@ -29,7 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstPlay = true
     
-    var width: CGFloat  = 0.0
     var xInset: CGFloat = 0.0
     
     
@@ -151,13 +150,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let textureDictionary = ["boundary" : boundaryImage, "boundary-1" : UIImage(named: "boundary-1"), "boundary-2": UIImage(named: "boundary-2"), "boundary-3" : UIImage(named: "boundary-3"),  "energyMeter" : energyMeterImage, "pauseButton" : pauseImage, "soundOn": soundOnImage, "rate" : rateImage, "mute" : muteImage, "share" : shareImage, "menu" : menuImage, "keepinTitle" : keepinTitleImage, "crown" : crownImage, "100crown" : hundredcrownImage]
         
         textureAtlas = SKTextureAtlas(dictionary: textureDictionary)
-        
-        
-        
     }
     
     func bestLabelSetup () {
-        
         bestLabel.text = "best: " + String(best!)
         bestLabel.fontSize = 40
         bestLabel.fontName = "Hiragino Sans"
@@ -466,11 +461,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		expandingCircleAction = SKAction.scale(to: CGSize(width: size.height * 3.0, height: size.height * 3.0), duration: 3.0)
 			
-        boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: width * 0.9, height: width * 0.9))
+        boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: size.width * 0.9, height: size.width * 0.9))
         
         
         boundary.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        let boundaryPhysicsPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: width * 0.435, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
+        let boundaryPhysicsPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: size.width * 0.435, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
         boundary.physicsBody = SKPhysicsBody(edgeLoopFrom: boundaryPhysicsPath.cgPath)
         boundary.zPosition = 10
         boundary.colorBlendFactor = 1.0
@@ -604,12 +599,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        if UIDevice.modelName.range(of: "X") != nil {
-            width = size.width * 0.8
-            xInset = width * 0.1
-        } else {
-            width = size.width
-        }
+		scene?.scaleMode = .aspectFit
         
         createTextureAtlas()
         boundarySetup()
