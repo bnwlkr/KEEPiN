@@ -13,9 +13,9 @@ struct LeaderboardView: View {
 	var dismiss: () -> Void = {}
 	var gameVC: GameViewController?
 	init(gameVC: GameViewController, dismiss: @escaping () -> Void) {
-		leaderboardManager.getLeaderboard()
 		self.dismiss = dismiss
 		self.gameVC = gameVC
+		UserDefaults.standard.set(true, forKey: "seenLeaderboard")
 	}
 
 	var body: some View {

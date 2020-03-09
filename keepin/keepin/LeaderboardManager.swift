@@ -9,13 +9,15 @@
 import Foundation
 import Alamofire
 
+let secret = "N9CXZIY331zHMGdtQQcS9wkV5aaqBfWJ357aArEpVzE="
 
 class LeaderboardManager: ObservableObject {
 	@Published var players: [Player] = []
 	static var apiUrl = "https://keepin.bnwl.kr/"
 	
 	func getLeaderboard() {
-		AF.request(LeaderboardManager.apiUrl + "leaderboard").responseJSON { response in
+		let parameters: Parameters = ["secret": secret]
+		AF.request(LeaderboardManager.apiUrl + "leaderboard", method: .post, parameters: parameters).responseJSON { response in
 			switch response.result {
 				case .failure(let error):
 					print(error)
@@ -39,7 +41,7 @@ class LeaderboardManager: ObservableObject {
 	
 	
 	static func existsUser(username: String, completion: @escaping (Bool) -> ()) {
-		let parameters: Parameters = ["username": username]
+		let parameters: Parameters = ["username": username, "secret": secret]
 		AF.request(apiUrl + "existsuser", method: .post, parameters: parameters).responseString { response in
 			switch response.result {
 				case .success(let result):
@@ -52,7 +54,7 @@ class LeaderboardManager: ObservableObject {
 	}
 	
 	static func newHighscore(username: String, highscore: Int, success: (()->())?) {
-		var parameters: Parameters = ["username": username, "highscore": highscore]
+		var parameters: Parameters = ["username": username, "highscore": highscore, "secret": secret]
 		if let region = Locale.current.regionCode {
 			parameters["region"] = region
 		}

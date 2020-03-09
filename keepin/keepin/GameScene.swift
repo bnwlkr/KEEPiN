@@ -62,7 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // buttons
     var menuButton = SKSpriteNode()
-    var shareButton = SKSpriteNode()
+    var leaderboardButton = SKSpriteNode()
     var soundButton = SKSpriteNode()
     var rateButton = SKSpriteNode()
 	var pauseButton = SKSpriteNode()
@@ -93,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // energyMeter
     var energyMeter = SKSpriteNode()
     var energyMeterWidth = 0.0
-    let depleteTime = 20.0//1.5
+    let depleteTime = 1.5
     let replenishTime = 3.0
     
     // ball
@@ -138,7 +138,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let boundaryImage = #imageLiteral(resourceName: "boundary")
         let energyMeterImage = #imageLiteral(resourceName: "energyMeter")
         let pauseImage = #imageLiteral(resourceName: "pauseButton")
-        let shareImage = #imageLiteral(resourceName: "share")
         let soundOnImage = #imageLiteral(resourceName: "soundOn")
         let muteImage = #imageLiteral(resourceName: "mute")
         let rateImage = #imageLiteral(resourceName: "ratingStar")
@@ -146,8 +145,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let keepinTitleImage = #imageLiteral(resourceName: "titleImage")
         let crownImage = #imageLiteral(resourceName: "crown")
         let hundredcrownImage = #imageLiteral(resourceName: "100crown")
+        let leaderboardImage = #imageLiteral(resourceName: "leaderboard")
+        let leaderboardNewImage = #imageLiteral(resourceName: "leaderboardNew")
         
-        let textureDictionary = ["boundary" : boundaryImage, "boundary-1" : UIImage(named: "boundary-1"), "boundary-2": UIImage(named: "boundary-2"), "boundary-3" : UIImage(named: "boundary-3"),  "energyMeter" : energyMeterImage, "pauseButton" : pauseImage, "soundOn": soundOnImage, "rate" : rateImage, "mute" : muteImage, "share" : shareImage, "menu" : menuImage, "keepinTitle" : keepinTitleImage, "crown" : crownImage, "100crown" : hundredcrownImage]
+        let textureDictionary = ["boundary" : boundaryImage, "boundary-1" : UIImage(named: "boundary-1"), "boundary-2": UIImage(named: "boundary-2"), "boundary-3" : UIImage(named: "boundary-3"),  "energyMeter" : energyMeterImage, "pauseButton" : pauseImage, "soundOn": soundOnImage, "rate" : rateImage, "mute" : muteImage, "menu" : menuImage, "keepinTitle" : keepinTitleImage, "crown" : crownImage, "100crown" : hundredcrownImage, "leaderboard": leaderboardImage, "leaderboardNew": leaderboardNewImage]
         
         textureAtlas = SKTextureAtlas(dictionary: textureDictionary)
     }
@@ -328,7 +329,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func buttonSetup () {
         let buttonSize = CGSize(width: size.width / 8, height: size.width / 8)
-        shareButton = SKSpriteNode(texture: textureAtlas.textureNamed("share"), size: buttonSize)
+        if defaults.bool(forKey: "seenLeaderboard") {
+			leaderboardButton = SKSpriteNode(texture: textureAtlas.textureNamed("leaderboard"), size: buttonSize)
+		} else {
+			leaderboardButton = SKSpriteNode(texture: textureAtlas.textureNamed("leaderboardNew"), size: buttonSize)
+		}
+        
         if isMuted == false {
             soundButton = SKSpriteNode(texture: textureAtlas.textureNamed("soundOn"), size: buttonSize)
         } else {
@@ -336,14 +342,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         rateButton = SKSpriteNode(texture: textureAtlas.textureNamed("rate"), size: buttonSize)
         
-        shareButton.name = "shareButton"
+        leaderboardButton.name = "leaderboardButton"
         soundButton.name = "soundButton"
         rateButton.name = "rateButton"
         
         
-        shareButton.position = CGPoint(x: size.width / 4, y: -shareButton.size.width)
-        rateButton.position = CGPoint(x: size.width / 2, y: -shareButton.size.width)
-        soundButton.position = CGPoint(x: size.width * (3/4),y: -shareButton.size.width)
+        leaderboardButton.position = CGPoint(x: size.width / 4, y: -leaderboardButton.size.width)
+        rateButton.position = CGPoint(x: size.width / 2, y: -leaderboardButton.size.width)
+        soundButton.position = CGPoint(x: size.width * (3/4),y: -leaderboardButton.size.width)
         
         
         
@@ -351,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         menuButton.position = CGPoint(x: size.width / 2, y: size.height * 0.16)
         menuButton.zPosition = 16
         
-        self.addChild(shareButton)
+        self.addChild(leaderboardButton)
         self.addChild(soundButton)
         self.addChild(rateButton)
         
@@ -364,7 +370,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch direction {
         case "UP":
             
-            let startPositionYButton = -shareButton.size.width
+            let startPositionYButton = -leaderboardButton.size.width
             let startPositionYBest = -bestLabel.fontSize
             let startPositionYTitle = size.height + titleImage.size.height
             
@@ -374,7 +380,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             self.touchStartLabel.isHidden = true
             
-            shareButton.run(presentButton)
+            leaderboardButton.run(presentButton)
             rateButton.run(presentButton)
             soundButton.run(presentButton)
             
@@ -409,7 +415,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             
-            shareButton.run(presentShareButton)
+            leaderboardButton.run(presentShareButton)
             rateButton.run(presentRateButton)
             soundButton.run(presentSoundButton)
             
@@ -536,7 +542,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.isPaused = false
         
         
-        self.removeChildren(in: [shareButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball])
+        self.removeChildren(in: [leaderboardButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball])
     
         randomizer = Int(arc4random_uniform(2))
     
@@ -572,7 +578,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = UIColor.black
         GameScene.gameState = GameState.startScreen
         
-        self.removeChildren(in: [shareButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball, pauseTint, menuButton, pauseButton, bestCrown, bestLabelCrown, instructionLabel2])
+        self.removeChildren(in: [leaderboardButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball, pauseTint, menuButton, pauseButton, bestCrown, bestLabelCrown, instructionLabel2])
         
         scoreLabel.isHidden = true
         
@@ -600,7 +606,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
 		scene?.scaleMode = .aspectFit
-        
         createTextureAtlas()
         boundarySetup()
         audioSetup()
@@ -681,8 +686,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let touch = touches.first
             if touchInRange(button: pauseButton, location: (touch?.location(in: self))!) && !(scene?.isPaused)! && GameScene.gameState != GameState.startScreen {
                 pause()
-            } else if touchInRange(button: shareButton, location: (touch?.location(in: self))!) && !(scene?.isPaused)! && self.children.contains(shareButton) {
-                share()
+            } else if touchInRange(button: leaderboardButton, location: (touch?.location(in: self))!) && !(scene?.isPaused)! && self.children.contains(leaderboardButton) {
+                leaderboard()
             } else if touchInRange(button: rateButton, location: (touch?.location(in: self))!) && !(scene?.isPaused)! && self.children.contains(rateButton) {
                 rate()
             } else if touchInRange(button: soundButton, location: (touch?.location(in: self))!) && !(scene?.isPaused)! && self.children.contains(soundButton) {
@@ -806,11 +811,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		rateApp(appId: "id1273915355")
     }
     
-	func share () {
+	func leaderboard () {
         if !isMuted {
             run(audioClick!)
         }
         self.viewControllerDelegate?.presentLeaderboard()
+        leaderboardButton.texture = textureAtlas.textureNamed("leaderboard")
     }
     
     func sound () {
