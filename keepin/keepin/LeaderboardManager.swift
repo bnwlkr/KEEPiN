@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-let secret = "N9CXZIY331zHMGdtQQcS9wkV5aaqBfWJ357aArEpVzE="
+let secret = "yn+OvNwCJmVrpiwuicCqhGhJCbGODSYsbgYooBld3BU="
 
 class LeaderboardManager: ObservableObject {
 	@Published var players: [Player] = []

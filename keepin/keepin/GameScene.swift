@@ -6,7 +6,6 @@
 //  Copyright © 2017 Ben Walker. All rights reserved.
 //
 
-// STARTING VALUES: 1.5 vortex strength,
 
 import SpriteKit
 import GameplayKit
@@ -18,6 +17,14 @@ import SwiftUI
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    
+	let GOLDEN_ASPECT: CGFloat = 0.5625
+	let STANDARD_BOUNDARY_WIDTH: CGFloat = 675.0
+	let currentAspect = UIScreen.main.bounds.width / UIScreen.main.bounds.height
+    
+    let GOLDEN_BALL_SHAPE_RATIO: CGFloat = 0.0266
+    let GOLDEN_BALL_PHYSICS_BODY_RATIO: CGFloat = 0.0222
     
     var viewControllerDelegate: ViewControllerDelegate?
     
@@ -48,8 +55,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // gameState
     static var gameState: GameState? = nil
-    var pauseGame = false
-    
     
     // colors
     var myColors = [UIColor.blue, UIColor.cyan, UIColor.green, UIColor.yellow, UIColor.red, UIColor.magenta]
@@ -104,9 +109,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel = SKLabelNode()
     var bestLabel = SKLabelNode()
     var score = 0
-    var best: Int? = nil
-    var beatScore = false
-    
     
     var instructionLabel2 = SKLabelNode()
     
@@ -114,10 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bestCrown = SKSpriteNode()
     var bestLabelCrown = SKLabelNode()
     
-    // user defaults
-    let defaults = UserDefaults.standard
-    
-    
+    var boundaryWidth: CGFloat!
     
     public enum Mask: UInt32 {
         case ball = 0
@@ -154,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func bestLabelSetup () {
-        bestLabel.text = "best: " + String(best!)
+        bestLabel.text = "best: " + String(KeyChain.highscore)
         bestLabel.fontSize = 40
         bestLabel.fontName = "Hiragino Sans"
         bestLabel.position = CGPoint(x: size.width / 2, y: -bestLabel.fontSize)
@@ -194,17 +193,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func newHighScore () {
+		
+		if (score >= 100) {
+			UserDefaults.standard.set(true, forKey: "royalty")
+			bestCrown.texture = textureAtlas.textureNamed("100crown")
+		}
+		KeyChain.highscore = score
+		bestLabel.text = "best: " + String(score)
+		bestLabelCrown.text = String(score)
+		
         if !isMuted {
-            if defaults.bool(forKey: "royalty") && !defaults.bool(forKey: "congratted")  {
+            if UserDefaults.standard.bool(forKey: "royalty") && !UserDefaults.standard.bool(forKey: "congratted")  {
                 run(audioUrAwesome!)
-                defaults.set(true, forKey: "congratted")
+                UserDefaults.standard.set(true, forKey: "congratted")
             } else {
                 run(audioCongrats!)
             }
         }
         
-        if let username = defaults.string(forKey: "username") {
-			LeaderboardManager.newHighscore(username: username, highscore: defaults.integer(forKey: "best"), success: nil)
+        if let username = KeyChain.username {
+			LeaderboardManager.newHighscore(username: username, highscore: KeyChain.highscore, success: nil)
 		}
         
         let spark = SKEmitterNode(fileNamed: "newHighScore")
@@ -227,7 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(spark!)
         self.addChild(spark2!)
         
-        bestLabelCrown.text = String(defaults.integer(forKey: "best"))
+        bestLabelCrown.text = String(KeyChain.highscore)
         bestLabelCrown.run(SKAction.repeatForever(sequenceX))
         bestCrown.run(SKAction.repeatForever(sequenceX))
         
@@ -250,16 +258,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setbestLabelPosition() {
-        
-        let best = defaults.integer(forKey: "best")
-        
-        if (best < 10) {
+        let highscore = KeyChain.highscore
+        if (highscore < 10) {
             bestLabelCrown.position = CGPoint(x: bestCrown.position.x + size.width / 17, y: bestCrown.position.y - size.width * 0.02)
             
-        } else if (best < 100) {
+        } else if (highscore < 100) {
             bestLabelCrown.position = CGPoint(x: bestCrown.position.x + size.width / 14, y: bestCrown.position.y - size.width * 0.02)
-            
-            
         } else {
             bestLabelCrown.position = CGPoint(x: bestCrown.position.x + size.width / 12, y: bestCrown.position.y - size.width * 0.02)
         }
@@ -273,7 +277,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         pauseButton.name = "pauseButton"
         
-        pauseButton.position = CGPoint(x: size.width * 0.08+xInset, y: size.height * 0.945)
+        pauseButton.position = CGPoint(x: size.width * 0.08+xInset, y: size.height * 0.935)
         
         pauseLabel.text = "PAUSED"
         pauseLabel.fontName = "Hiragino Sans"
@@ -291,16 +295,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         bestCrown.size = CGSize(width: size.width / 15, height: size.width / 17)
-        bestCrown.position = CGPoint(x: size.width * 0.86-xInset, y: size.height * 0.945)
+        bestCrown.position = CGPoint(x: size.width * 0.86-xInset, y: size.height * 0.935)
         
-        if (defaults.integer(forKey: "best") >= 100) {
+        let highscore = KeyChain.highscore
+        
+        if (highscore >= 100) {
             bestCrown.texture = textureAtlas.textureNamed("100crown")
         } else {
             bestCrown.texture = textureAtlas.textureNamed("crown")
         }
         self.addChild(bestCrown)
         
-        bestLabelCrown.text = String(defaults.integer(forKey: "best"))
+        bestLabelCrown.text = String(highscore)
         bestLabelCrown.fontColor = UIColor.white
         bestLabelCrown.fontName = "Hiragino Sans"
         bestLabelCrown.fontSize = size.width * 0.045
@@ -308,9 +314,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setbestLabelPosition()
         
         
-        if (!defaults.bool(forKey: "instructed")) {
+        if (!UserDefaults.standard.bool(forKey: "instructed")) {
             if (GameScene.plays > 0) {
-                defaults.set(true, forKey: "instructed")
+                UserDefaults.standard.set(true, forKey: "instructed")
             } else {
                 instructionLabel2.fontName = "Hiragino-Sans Bold"
                 instructionLabel2.text = "The circle blocks the ball while\nyou are holding down.You can\nhold down as long as your\nenergy bar hasn't depleted!"
@@ -329,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func buttonSetup () {
         let buttonSize = CGSize(width: size.width / 8, height: size.width / 8)
-        if defaults.bool(forKey: "seenLeaderboard") {
+        if UserDefaults.standard.bool(forKey: "seenLeaderboard") {
 			leaderboardButton = SKSpriteNode(texture: textureAtlas.textureNamed("leaderboard"), size: buttonSize)
 		} else {
 			leaderboardButton = SKSpriteNode(texture: textureAtlas.textureNamed("leaderboardNew"), size: buttonSize)
@@ -466,12 +472,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	func boundarySetup () {
 		
 		expandingCircleAction = SKAction.scale(to: CGSize(width: size.height * 3.0, height: size.height * 3.0), duration: 3.0)
-			
-        boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: size.width * 0.9, height: size.width * 0.9))
+		
+		boundaryWidth = size.width * 0.9
+		if currentAspect > GOLDEN_ASPECT {
+			boundaryWidth *= 0.75
+		}
+
+        boundary = SKSpriteNode(texture: textureAtlas.textureNamed("boundary"), size: CGSize(width: boundaryWidth, height: boundaryWidth))
         
         
         boundary.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        let boundaryPhysicsPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: size.width * 0.435, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
+        let boundaryPhysicsPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: boundaryWidth * 0.5 * 0.97, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
         boundary.physicsBody = SKPhysicsBody(edgeLoopFrom: boundaryPhysicsPath.cgPath)
         boundary.zPosition = 10
         boundary.colorBlendFactor = 1.0
@@ -488,10 +499,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func ballSetup () {
-        ball = SKShapeNode(circleOfRadius: 18)
+        ball = SKShapeNode(circleOfRadius: boundary.size.width * GOLDEN_BALL_SHAPE_RATIO)
         ball.fillColor = UIColor.white
         ball.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 15)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: boundary.size.width * GOLDEN_BALL_PHYSICS_BODY_RATIO)
         ball.physicsBody?.affectedByGravity = false
         ball.physicsBody?.restitution = 1.2
         ball.physicsBody?.isDynamic = false
@@ -509,15 +520,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func setDefaults () {
-        best = defaults.integer(forKey: "best")
-    }
-    
     func startGame() {
         
         if GameScene.plays > 1 {
             self.removeChildren(in: [instructionLabel2])
-            defaults.set(true, forKey: "instructed")
+            UserDefaults.standard.set(true, forKey: "instructed")
         }
     
         
@@ -527,7 +534,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bestCrown.alpha = 1.0
         bestLabelCrown.alpha = 1.0
         
-        if GameScene.plays == 8 && !beatScore {
+        if GameScene.plays == 8 {
             NotificationCenter.default.post(Notification.init(name: Notification.Name("playsReached")))
             GameScene.plays = 0
         }
@@ -552,20 +559,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vortexSetup()
         randomVortex()
         
-        setDefaults()
-        
         scoreLabel.isHidden = false
         
         setContactable(contact: false)
         
         GameScene.gameState = GameState.waitingToStart
         
-        if beatScore {
-            if (best! >= 100) {
-                bestCrown.texture = textureAtlas.textureNamed("100crown")
-            }
+        if score > KeyChain.highscore  {
             newHighScore()
-            beatScore = false
         }
         
     }
@@ -581,13 +582,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeChildren(in: [leaderboardButton, rateButton, soundButton, titleImage, touchStartLabel, bestLabel, pauseLabel, vortex, energyMeter, ball, pauseTint, menuButton, pauseButton, bestCrown, bestLabelCrown, instructionLabel2])
         
         scoreLabel.isHidden = true
-        
-        setDefaults()
+			
         bestLabelSetup()
         ballSetup()
         buttonSetup()
         titleSetup()
-        
         
         GameScene.gameState = GameState.startScreen
         
@@ -597,7 +596,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         boundary.run(SKAction.repeatForever(boundaryShiftSequence))
         
-        pauseGame = false
         scene?.isPaused = false
         
         presentMenuFeatures(direction: "Down")
@@ -605,7 +603,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-		scene?.scaleMode = .aspectFit
+		size.width = size.width * (currentAspect / GOLDEN_ASPECT)
+		scene?.scaleMode = .aspectFill
         createTextureAtlas()
         boundarySetup()
         audioSetup()
@@ -638,19 +637,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 
     override func update(_ currentTime: TimeInterval) {
-        if score > best! {
-            beatScore = true
-            if (score >= 100) {
-                defaults.set(true, forKey: "royalty")
-            }
-            best = score
-            bestLabel.text = "best: " + String(best!)
-            defaults.set(best, forKey: "best")
-            defaults.synchronize()
-        }
-        
-        
-        self.isPaused = pauseGame
         
         if isBallOutside() {
             transitionColor = energyMeter.color
@@ -699,9 +685,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 transitionColor = myColors[Int(arc4random_uniform(UInt32(myColors.endIndex)))]
                 boundary.color = UIColor.white
                 presentMenuFeatures(direction: "UP")
-            } else if pauseGame {
+			} else if scene!.isPaused {
                 scene?.isPaused = false
-                pauseGame = false
                 self.removeChildren(in: [pauseTint, pauseLabel, menuButton])
                 self.addChild(pauseButton)
             } else {
@@ -762,7 +747,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		})
 		
         if !(abs(contact.contactPoint.x - lastContactpoint.x) < (size.width / 250) && abs(contact.contactPoint.y - lastContactpoint.y) < (size.width / 250)) {
-            if distance(contact.contactPoint, CGPoint(x: size.width / 2, y: size.height / 2)) <= size.width * 0.435 {
+            if distance(contact.contactPoint, CGPoint(x: size.width / 2, y: size.height / 2)) <= boundaryWidth * 0.5 {
                 score += 1
                 scoreLabel.text = String(score)
                 if !isMuted {
@@ -800,7 +785,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }
-        pauseGame = true
+        scene?.isPaused = true
         self.removeChildren(in: [pauseButton])
         self.addChild(pauseTint)
         self.addChild(pauseLabel)
@@ -829,11 +814,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             soundButton.texture = textureAtlas.textureNamed("soundOn")
             isMuted = false
-        }
-        
+        }        
     }
-    
-    
     
     
     func random() -> CGFloat {

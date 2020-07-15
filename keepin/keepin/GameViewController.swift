@@ -88,8 +88,8 @@ class GameViewController: UIViewController, ViewControllerDelegate  {
 		let submitAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) {
 			  UIAlertAction in
 			let username = self.alertController.textFields![0].text!
-			LeaderboardManager.newHighscore(username: username, highscore: UserDefaults.standard.integer(forKey: "best"), success: {
-				UserDefaults.standard.set(username, forKey: "username")
+			LeaderboardManager.newHighscore(username: username, highscore: KeyChain.highscore, success: {
+				KeyChain.username = username
 				leaderboardManager.getLeaderboard()
 			})
 		}

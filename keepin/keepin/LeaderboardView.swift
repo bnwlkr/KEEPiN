@@ -32,8 +32,10 @@ struct LeaderboardView: View {
 			)
 		}.onAppear {
 			self.leaderboardManager.getLeaderboard()
-			if UserDefaults.standard.string(forKey: "username") == nil {
+			if KeyChain.username == nil {
 				self.gameVC?.requestUsername(leaderboardManager: self.leaderboardManager)
+			} else {
+				LeaderboardManager.newHighscore(username: KeyChain.username!, highscore: KeyChain.highscore, success: nil)
 			}
 		}
     }
